@@ -63,6 +63,9 @@ async def correct_captcha_cb_handler(c: Client, cb: CallbackQuery):
             user = await c.get_users(
                 f_user_id
             )
+            t1= time.time()
+            t2 = time.time()
+            time = t2 - t1
             mention = f"<a href='tg://user?id={user.id}'>{user.first_name}</a>"
             if secret == cap_data[0]["key_id"]:
                 await c.restrict_chat_member(
@@ -83,7 +86,7 @@ async def correct_captcha_cb_handler(c: Client, cb: CallbackQuery):
                 await cb.edit_message_reply_markup()
 
                 await cb.edit_message_text(
-                    f"{mention} has successfully solved the Captcha and verified."
+                    f"{mention} has successfully solved the Captcha and verified in {time} seconds"
                 )
 
                 remove_captcha(cb.message.chat.id, cb.message.message_id)
